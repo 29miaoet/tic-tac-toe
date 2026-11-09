@@ -28,12 +28,12 @@ public:
 
   void move(int xcoord, int ycoord) {
     if (board[xcoord][ycoord] != 0) {
-      std::cout << "Error, position already occupied." << std::endl;
+      std::cout << "Error, position already occupied." << "\n";
     } else if (0 <= xcoord && 0 <= ycoord && xcoord <= 2 && ycoord <= 2) {
       board[xcoord][ycoord] = turn;
       changeTurn();
     } else {
-      std::cout << "Invalid arguments for move(), aborting move." << std::endl;
+      std::cout << "Invalid arguments for move(), aborting move." << "\n";
     }
   }
 
