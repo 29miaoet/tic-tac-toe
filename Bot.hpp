@@ -2,6 +2,7 @@
 #include "Game.hpp"
 #include <array>
 #include <climits>
+#include <random>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -12,17 +13,19 @@ public:
   // Purely documentational, not used
   std::string difficulty;
 
-  ComputerAided() : difficulty("impossible") {}
+  ComputerAided() : difficulty("impossible") {
+  }
 
-  ComputerAided(std::string diff) : difficulty(diff) {}
+  ComputerAided(std::string diff) : difficulty(diff) {
+  }
 
-  ComputerAided(std::array<std::array<int, 3>, 3> suppliedBoard,
-                int suppliedTurn)
-      : Game(suppliedBoard, suppliedTurn) {}
+  ComputerAided(std::array<std::array<int, 3>, 3> suppliedBoard, int suppliedTurn)
+      : Game(suppliedBoard, suppliedTurn) {
+  }
 
-  ComputerAided(std::array<std::array<int, 3>, 3> suppliedBoard,
-                int suppliedTurn, std::string diff)
-      : Game(suppliedBoard, suppliedTurn), difficulty(diff) {}
+  ComputerAided(std::array<std::array<int, 3>, 3> suppliedBoard, int suppliedTurn, std::string diff)
+      : Game(suppliedBoard, suppliedTurn), difficulty(diff) {
+  }
 
   std::vector<std::array<int, 2>> getAllMoves() {
     std::vector<std::array<int, 2>> allMoves = {};
@@ -52,11 +55,40 @@ public:
     changeTurn();
   }
 
-  std::pair<int, std::array<int, 2>> getBestMove(bool initialPlayer) {
+  std::array<int, 2> getRandomMove() {
+    int endingCode = winner();
+    if (endingCode != 0) {
+      return {-1, -1};
+    }
+
+    std::random_device rd;
+    std::mt19937 generator(rd());
+
+    auto allMoves = getAllMoves();
+    std::uniform_int_distribution<int> distribution(0, allMoves.size() - 1);
+
+    int randomNumber = distribution(generator);
+    return allMoves[randomNumber];
+  }
+
+  std::array<int, 2> getReasonableMove(bool initialPlayer) {
+    return getBestMove(initialPlayer, 0, 2).second;
+  }
+
+  /*
+   * Uses minimax analysis and depth weighted evaluation, alpha-beta pruning not necessary.
+   */
+  std::pair<int, std::array<int, 2>> getBestMove(bool initialPlayer, int depth = 0,
+                                                 int maxDepth = 10) {
     int endingCode = winner();
     if (endingCode != 0) {
       // Game already ended, no best move
-      return {endingCode, {-1, -1}};
+      constexpr int winningScore = 10;
+      return {endingCode * (winningScore - depth), {-1, -1}};
+    }
+
+    if (depth >= maxDepth) {
+      return {0, {-1, -1}};
     }
 
     auto moves = getAllMoves();
@@ -71,7 +103,7 @@ public:
       // Iterates through every move
       move(testMove[0], testMove[1]);
 
-      int score = getBestMove(!initialPlayer).first;
+      int score = getBestMove(!initialPlayer, depth + 1, maxDepth).first;
 
       restoreMove(testMove[0], testMove[1]);
 

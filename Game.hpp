@@ -10,7 +10,8 @@ protected:
   std::array<std::array<int, 3>, 3> board;
 
 public:
-  Game() : board{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}, turn(1) {}
+  Game() : board{{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}}, turn(1) {
+  }
   Game(std::array<std::array<int, 3>, 3> suppliedBoard, int suppliedTurn) {
     board = suppliedBoard;
     turn = suppliedTurn;
@@ -51,11 +52,9 @@ public:
   int winner() {
     // Horizontal and vertical
     for (int i = 0; i < 3; i++) {
-      if (board[i][0] != 0 && board[i][0] == board[i][1] &&
-          board[i][1] == board[i][2]) {
+      if (board[i][0] != 0 && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
         return board[i][0];
-      } else if (board[0][i] != 0 && board[0][i] == board[1][i] &&
-                 board[1][i] == board[2][i]) {
+      } else if (board[0][i] != 0 && board[0][i] == board[1][i] && board[1][i] == board[2][i]) {
         return board[0][i];
       }
     }
@@ -71,5 +70,7 @@ public:
     return 0;
   }
 
-  int getTurn() { return turn; }
+  int getTurn() {
+    return turn;
+  }
 };
