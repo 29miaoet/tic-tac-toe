@@ -9,7 +9,7 @@ if(CCACHE_PROGRAM)
     set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
 endif()
 
-add_executable(Game Main.cpp)
+add_executable(Game src/Main.cpp)
 
 target_compile_features(Game PRIVATE cxx_std_23)
 
