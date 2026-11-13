@@ -65,7 +65,12 @@ public:
     std::mt19937 generator(rd());
 
     auto allMoves = getAllMoves();
-    std::uniform_int_distribution<int> distribution(0, allMoves.size() - 1);
+
+    if (allMoves.empty()) {
+      return {-1, -1};
+    }
+
+    std::uniform_int_distribution<int> distribution(0, static_cast<int>(allMoves.size()) - 1);
 
     int randomNumber = distribution(generator);
     return allMoves[randomNumber];

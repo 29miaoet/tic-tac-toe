@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "types": ["vite/client"],
+    "noEmit": true,
+    "strict": true,
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*", "src/types/**/*.d.ts"]
+}

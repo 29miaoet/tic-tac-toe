@@ -28,14 +28,18 @@ public:
   }
 
   void move(int xcoord, int ycoord) {
-    if (board[xcoord][ycoord] != 0) {
-      std::cout << "Error, position already occupied." << "\n";
-    } else if (0 <= xcoord && 0 <= ycoord && xcoord <= 2 && ycoord <= 2) {
-      board[xcoord][ycoord] = turn;
-      changeTurn();
-    } else {
-      std::cout << "Invalid arguments for move(), aborting move." << "\n";
+    if (xcoord < 0 || xcoord > 2 || ycoord < 0 || ycoord > 2) {
+      std::cout << "Invalid arguments for move().\n";
+      return;
     }
+
+    if (board[xcoord][ycoord] != 0) {
+      std::cout << "Error, position already occupied.\n";
+      return;
+    }
+
+    board[xcoord][ycoord] = turn;
+    changeTurn();
   }
 
   void printBoard() {
@@ -72,5 +76,9 @@ public:
 
   int getTurn() {
     return turn;
+  }
+
+  std::array<std::array<int, 3>, 3> getBoard() const {
+    return board;
   }
 };
