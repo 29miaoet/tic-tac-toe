@@ -92,7 +92,7 @@ export default function Board() {
   }
 
   return (
-    <div className="board" id="board">
+    <div id="board">
       {cells.map((cell, index) => (
         <button
           className="cell"
