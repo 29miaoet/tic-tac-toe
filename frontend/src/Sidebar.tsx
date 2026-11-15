@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, PropsWithChildren } from "react";
 
 type SidebarProps = {
   defaultWidth?: number;
@@ -6,11 +6,12 @@ type SidebarProps = {
   minRatio?: number;
 };
 
-export default function Sidebar({
+export function Sidebar({
   defaultWidth = 280,
   maxRatio = 0.7,
   minRatio = 0.3,
-}: SidebarProps) {
+  children,
+}: PropsWithChildren<SidebarProps>) {
   const [sidebarWidth, setSidebarWidth] = useState<number>(() => {
     const root = document.getElementById("root");
     return root ? root.getBoundingClientRect().width * 0.5 : 280;
@@ -69,7 +70,9 @@ export default function Sidebar({
         onDoubleClick={() => setSidebarWidth(defaultWidth)}
       />
 
-      <aside id="sidebar" style={{ width: `${sidebarWidth}px` }}></aside>
+      <aside id="sidebar" style={{ width: `${sidebarWidth}px` }}>
+        {children}
+      </aside>
     </>
   );
 }

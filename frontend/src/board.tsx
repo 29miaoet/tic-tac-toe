@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { settings } from "./settings";
+import { getSettings } from "./settings";
+import { finish } from "./Finish";
 import createModule from "../../wasm/TicTacToe.js";
 import wasmUrl from "../../wasm/TicTacToe.wasm?url";
 
@@ -21,11 +22,11 @@ function* play(xcoord: number, ycoord: number): Generator<PlayReturn, void, unkn
   let otherPlayer: string = "player";
 
   if (turn == 1) {
-    player = settings.white;
-    otherPlayer = settings.black;
+    player = getSettings("white");
+    otherPlayer = getSettings("black");
   } else if (turn == -1) {
-    player = settings.black;
-    otherPlayer = settings.white;
+    player = getSettings("black");
+    otherPlayer = getSettings("white");
   }
 
   let lastMove: Move;
@@ -57,13 +58,13 @@ function* play(xcoord: number, ycoord: number): Generator<PlayReturn, void, unkn
   if (currentWinner !== 0 || game.getAllMoves().size() === 0) {
     switch (currentWinner) {
       case 1:
-        console.log(`Game over, white won.`);
+        finish("Game Over", "White Won");
         break;
       case -1:
-        console.log(`Game over, black won.`);
+        finish("Game Over", "Black Won");
         break;
       case 0:
-        console.log(`Game over, draw.`);
+        finish("Game Over", "Draw");
         break;
     }
     return;
@@ -74,7 +75,7 @@ function* play(xcoord: number, ycoord: number): Generator<PlayReturn, void, unkn
   }
 }
 
-export default function Board() {
+export function Board() {
   const [cells, setCells] = useState<Array<string>>(Array(9).fill(""));
 
   function makeMove(xcoord: number, ycoord: number) {
