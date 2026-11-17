@@ -15,6 +15,10 @@ const game = new wasm.ComputerAided();
 type Move = [number, number];
 type PlayReturn = [Move, "X" | "O"];
 
+export function getBoard() {
+  return game.getBoard();
+}
+
 function* play(xcoord: number, ycoord: number): Generator<PlayReturn, void, unknown> {
   const turn = game.getTurn();
   // Safe default
