@@ -4,13 +4,14 @@ import { Sidebar } from "./Sidebar";
 import { Player } from "./Player";
 import { Finish } from "./Finish";
 import { Notation } from "./Notation";
+import { GameProvider } from "./GameContext";
 import { defaultSettings } from "./settings";
 import "./styles.css";
 
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-  <>
+  <GameProvider>
     <main id="board-container">
       <Board />
     </main>
@@ -24,5 +25,5 @@ root.render(
       </div>
       <Notation />
     </Sidebar>
-  </>
+  </GameProvider>
 );

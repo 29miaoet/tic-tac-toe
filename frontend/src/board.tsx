@@ -1,3 +1,4 @@
+import { useGame } from "./GameContext";
 import { useState } from "react";
 import { getSettings } from "./settings";
 import { finish } from "./Finish";
@@ -80,6 +81,7 @@ function* play(xcoord: number, ycoord: number): Generator<PlayReturn, void, unkn
 }
 
 export function Board() {
+  const { recordMove } = useGame();
   const [cells, setCells] = useState<Array<string>>(Array(9).fill(""));
 
   function makeMove(xcoord: number, ycoord: number) {
@@ -87,6 +89,7 @@ export function Board() {
 
     for (let result = generator.next(); !result.done; result = generator.next()) {
       const [lastMove, lastSymbol] = result.value;
+      recordMove(`${lastMove[0]}-${lastMove[1]}`);
 
       setCells((prev) => {
         const updated = [...prev];
@@ -103,6 +106,7 @@ export function Board() {
           className="cell"
           key={index}
           onClick={() => makeMove(Math.floor(index / 3), index % 3)}
+          disabled={Boolean(cell)}
         >
           {cell}
         </button>
