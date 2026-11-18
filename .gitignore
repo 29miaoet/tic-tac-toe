@@ -1,3 +1,5 @@
 build/
 wasm/
 .cache/
+node_modules/
+dist/
