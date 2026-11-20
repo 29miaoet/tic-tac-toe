@@ -278,3 +278,17 @@ dialog > div > button:hover {
 .notation tbody tr:hover {
   background-color: #f1f1f1;
 }
+
+#reset-button {
+  background-color: var(--blue-300);
+  margin-top: 25px;
+  padding: 10px 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+#reset-button:hover {
+  box-shadow: 0 3px 5px var(--blue-500);
+}
