@@ -239,3 +239,42 @@ dialog > div > button:hover {
   gap: 15px;
   justify-content: center;
 }
+
+.notation {
+  background-color: #fff;
+  border-radius: 5px;
+  border-collapse: collapse;
+  text-align: left;
+  overflow: hidden;
+}
+
+.notation thead tr {
+  background-color: var(--blue-500);
+  color: #fff;
+}
+
+.notation th {
+  text-align: center;
+}
+
+.notation th,
+.notation td {
+  padding: 12px 15px;
+}
+
+.notation td:first-child {
+  font-weight: 700;
+  background-color: #f8f9fa;
+}
+
+.notation tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.notation tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.notation tbody tr:hover {
+  background-color: #f1f1f1;
+}

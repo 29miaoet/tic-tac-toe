@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import { addMove } from "./settings";
+import { addMove, resetNotation } from "./settings";
+import { resetGame } from "./Board";
 
 interface TableRow {
   white: string;
@@ -8,13 +9,17 @@ interface TableRow {
 
 interface GameContextType {
   rows: TableRow[];
+  cells: Array<string>;
+  setCells: React.Dispatch<React.SetStateAction<string[]>>;
   recordMove: (move: string) => void;
+  clearBoard: () => void;
 }
 
 const GameContext = createContext<GameContextType | null>(null);
 
 export function GameProvider({ children }: { children: React.ReactNode }) {
   const [rows, setRows] = useState<TableRow[]>([{ white: "", black: "" }]);
+  const [cells, setCells] = useState<Array<string>>(Array(9).fill(""));
 
   function recordMove(move: string) {
     setRows((prevRows) => {
@@ -39,7 +44,21 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     });
   }
 
-  return <GameContext.Provider value={{ rows, recordMove }}>{children}</GameContext.Provider>;
+  function clearBoard() {
+    // Clear board
+    setCells(() => Array(9).fill(""));
+    resetGame();
+
+    // Erase notation
+    setRows(() => [{ white: "", black: "" }]);
+    resetNotation();
+  }
+
+  return (
+    <GameContext.Provider value={{ rows, cells, setCells, recordMove, clearBoard }}>
+      {children}
+    </GameContext.Provider>
+  );
 }
 
 export function useGame() {

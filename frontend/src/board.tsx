@@ -1,5 +1,4 @@
 import { useGame } from "./GameContext";
-import { useState } from "react";
 import { getSettings } from "./settings";
 import { finish } from "./Finish";
 import createModule from "../../wasm/TicTacToe.js";
@@ -11,13 +10,17 @@ const wasm = await createModule({
   },
 });
 
-const game = new wasm.ComputerAided();
+let game = new wasm.ComputerAided();
 
 type Move = [number, number];
 type PlayReturn = [Move, "X" | "O"];
 
 export function getBoard() {
   return game.getBoard();
+}
+
+export function resetGame() {
+  game = new wasm.ComputerAided();
 }
 
 function* play(xcoord: number, ycoord: number): Generator<PlayReturn, void, unknown> {
@@ -81,8 +84,7 @@ function* play(xcoord: number, ycoord: number): Generator<PlayReturn, void, unkn
 }
 
 export function Board() {
-  const { recordMove } = useGame();
-  const [cells, setCells] = useState<Array<string>>(Array(9).fill(""));
+  const { recordMove, cells, setCells } = useGame();
 
   function makeMove(xcoord: number, ycoord: number) {
     const generator = play(xcoord, ycoord);

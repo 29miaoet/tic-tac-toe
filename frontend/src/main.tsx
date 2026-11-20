@@ -5,6 +5,7 @@ import { Player } from "./Player";
 import { Finish } from "./Finish";
 import { Notation } from "./Notation";
 import { GameProvider } from "./GameContext";
+import { Reset } from "./Reset";
 import { defaultSettings } from "./settings";
 import "./styles.css";
 
@@ -24,6 +25,7 @@ root.render(
         <Player label="Black (O)" value="black" defaultPlayer={defaultSettings.black} />
       </div>
       <Notation />
+      <Reset />
     </Sidebar>
   </GameProvider>
 );

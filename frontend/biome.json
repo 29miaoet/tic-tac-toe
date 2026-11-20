@@ -1,6 +1,10 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.6.4/schema.json",
-  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true,
+    "root": "../"
+  },
   "files": { "includes": ["**", "!!**/dist"] },
   "formatter": {
     "enabled": true,
@@ -14,13 +18,7 @@
     "bracketSpacing": true,
     "expand": "auto",
     "useEditorconfig": true,
-    "includes": [
-      "**",
-      "!**/node_modules",
-      "!**/__pycache__",
-      "!**/dist",
-      "!**/*.py"
-    ]
+    "includes": ["**", "!**/node_modules", "!**/__pycache__", "!**/dist", "!**/*.py"]
   },
   "linter": {
     "rules": {

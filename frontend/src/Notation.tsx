@@ -4,7 +4,14 @@ export function Notation() {
   const { rows } = useGame();
 
   return (
-    <table>
+    <table className="notation">
+      <thead>
+        <tr>
+          <th>Move</th>
+          <th>White</th>
+          <th>Black</th>
+        </tr>
+      </thead>
       <tbody>
         {rows.map((row, index) => (
           <tr key={index}>

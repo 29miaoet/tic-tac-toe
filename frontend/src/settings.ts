@@ -34,6 +34,11 @@ export function addMove(side: Sides, move: string) {
   }
 }
 
+export function resetNotation() {
+  notation.white = [];
+  notation.black = [];
+}
+
 export function setSettings(side: Sides, player: Players): void {
   settings[side] = player;
 }
