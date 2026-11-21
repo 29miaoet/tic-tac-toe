@@ -47,9 +47,9 @@ jobs:
         with:
           name: wasm-build
           path: |
-            src/wasm/TicTacToe.js
-            src/wasm/TicTacToe.wasm
-            src/wasm/TicTacToe.d.ts
+            wasm/TicTacToe.js
+            wasm/TicTacToe.wasm
+            wasm/TicTacToe.d.ts
           if-no-files-found: error
 
   frontend:
