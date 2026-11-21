@@ -14,6 +14,7 @@ add_executable(TicTacToe
 
 target_compile_options(TicTacToe PRIVATE
     -O0
+    -fexceptions
 )
 
 target_link_options(TicTacToe PRIVATE

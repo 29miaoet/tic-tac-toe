@@ -1,0 +1,94 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+        uses: emscripten-core/setup-emsdk@v16
+        with:
+          version: 7.0.0
+
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes cmake ninja-build
+
+        run: |
+          emcmake cmake -S backend -B backend/build-wasm \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug
+
+        run: cmake --build backend/build-wasm --parallel
+
+        uses: actions/upload-artifact@v7
+        with:
+          name: wasm-build
+          path: |
+            src/wasm/TicTacToe.js
+            src/wasm/TicTacToe.wasm
+            src/wasm/TicTacToe.d.ts
+          if-no-files-found: error
+
+  frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    needs: backend
+
+    steps:
+      uses: actions/checkout@v7
+      uses: actions/setup-node@v7
+      with:
+        node-version: 26
+        cache: npm
+
+      uses: actions/download-artifact@v8
+      with:
+        name: wasm-build
+        path: src/wasm
+
+      run: npm ci
+
+      run: npm run build
+
+      uses: actions/configure-pages@v6
+
+      uses: actions/upload-pages-artifact@v5
+      with:
+        path: dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: frontend
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5
